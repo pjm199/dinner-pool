@@ -1,8 +1,7 @@
-// app/api/vote/route.ts
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { upsertVote } from "../../lib/db";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { roundId, restaurantId, userId, score } = await req.json();
 

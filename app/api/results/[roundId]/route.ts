@@ -1,12 +1,14 @@
-// app/api/results/[roundId]/route.ts
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getRoundResults } from "../../../lib/db";
 
-type Params = { params: { roundId: string } };
-
-export async function GET(_req: Request, { params }: Params) {
+export async function GET(
+  _req: NextRequest,
+  context: { params: Promise<{ roundId: string }> }
+) {
   try {
-    const { roundId } = params;
+    // In newer Next.js, params can be a Promise, so we safely await it
+    const { roundId } = await context.params;
+
     if (!roundId) {
       return NextResponse.json({ error: "Missing roundId" }, { status: 400 });
     }
