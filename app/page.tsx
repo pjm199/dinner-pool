@@ -43,6 +43,7 @@ export default function HomePage() {
   const [isClosed, setIsClosed] = useState(false);
   const [closingText, setClosingText] = useState("");
 
+  
 
   useEffect(() => {
     // runs only in browser

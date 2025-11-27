@@ -25,16 +25,27 @@ export function RestaurantCard({
   const currentLabel = labels[numericValue];
 
   return (
-    <div className="rounded-2xl bg-slate-900/70 border border-slate-800 p-4 shadow-md">
-      {/* Restaurant info */}
-      <div className="flex justify-between items-start gap-2">
-        <div>
-          <h2 className="text-lg font-semibold">{restaurant.name}</h2>
-          <div className="flex flex-wrap gap-1 mt-1 text-xs text-slate-300">
+    <div
+      className={`group rounded-2xl border p-4 shadow-lg transition-all duration-150
+        bg-gradient-to-br from-slate-500 to-slate-800
+        ${
+          disabled
+            ? "border-slate-700 opacity-80"
+            : "border-slate-600/80 hover:border-emerald-400/70 hover:-translate-y-[1px]"
+        }
+      `}
+    >
+      {/* Top row: name + link */}
+      <div className="flex justify-between items-start gap-3">
+        <div className="min-w-0">
+          <h2 className="text-base font-semibold text-orange-500 truncate">
+            {restaurant.name}
+          </h2>
+          <div className="flex flex-wrap gap-1 mt-1 text-[11px] text-slate-100">
             {restaurant.tags.map((t) => (
               <span
                 key={t}
-                className="px-2 py-0.5 rounded-full bg-slate-800"
+                className="px-2 py-0.5 rounded-full bg-slate-800/90 border border-slate-700/70"
               >
                 {t}
               </span>
@@ -43,7 +54,7 @@ export function RestaurantCard({
         </div>
         <a
           href={restaurant.url}
-          className="text-xs underline text-sky-400"
+          className="text-[11px] underline text-sky-300 hover:text-sky-200 shrink-0"
           target="_blank"
           rel="noreferrer"
         >
@@ -52,13 +63,20 @@ export function RestaurantCard({
       </div>
 
       {/* Vote widget */}
-      <div className="mt-4 opacity-100">
-        <p className="text-sm mb-2">Your vote:</p>
-        <div className="flex justify-between text-xs mb-1">
+      <div className="mt-4">
+        <div className="flex items-center justify-between mb-1">
+          <p className="text-sm text-slate-100">Your vote</p>
+          {!disabled && (
+            <span className="text-[11px] text-slate-400">Slide to choose</span>
+          )}
+        </div>
+
+        <div className="flex justify-between text-[11px] mb-1 text-slate-300">
           <span>No</span>
           <span>OK</span>
           <span>Top choice</span>
         </div>
+
         <input
           type="range"
           min={0}
@@ -66,13 +84,14 @@ export function RestaurantCard({
           step={1}
           value={numericValue}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full"
+          className="w-full accent-emerald-400 cursor-pointer"
           disabled={disabled}
         />
-        <p className="mt-1 text-xs text-slate-300">
+
+        <p className="mt-2 text-xs text-slate-200">
           {disabled ? (
             <span className="text-slate-500">
-              Join the poll above to vote.
+              Join the poll above to vote on this place.
             </span>
           ) : (
             <>
@@ -84,12 +103,6 @@ export function RestaurantCard({
           )}
         </p>
       </div>
-
-      {disabled && (
-        <div className="mt-2 text-[10px] text-slate-500">
-          Voting is locked until you join this poll.
-        </div>
-      )}
     </div>
   );
 }
