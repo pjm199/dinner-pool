@@ -1,3 +1,4 @@
+// app/api/vote/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { upsertVote } from "../../lib/db";
 
