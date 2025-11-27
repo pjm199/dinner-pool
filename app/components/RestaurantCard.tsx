@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 export type Restaurant = {
   id: string;
   name: string;
   tags: string[];
   url: string;
+  location: string;
+  description: string;
+  images?: string[];
+  specialties?: string[];
 };
 
 type RestaurantCardProps = {
@@ -20,6 +24,8 @@ export function RestaurantCard({
   onChange,
   disabled = false,
 }: RestaurantCardProps) {
+  const [expanded, setExpanded] = useState(false);
+
   const numericValue = value ?? 1; // default middle
   const labels = ["No", "OK", "Top choice"];
   const currentLabel = labels[numericValue];
@@ -27,20 +33,26 @@ export function RestaurantCard({
   return (
     <div
       className={`group rounded-2xl border-emerald-400/70 p-4 shadow-lg transition-all duration-150
-        bg-gradient-to-br from-slate-400 to-slate-800
+        bg-gradient-to-br from-slate-400 to-slate-950
         ${
           disabled
-            ? "border-yellow-400 opacity-80"
-            : "border-yellow-100/80 hover:border-emerald-400/70 hover:-translate-y-[1px]"
-        }
-      `}
+            ? "border-slate-700 opacity-80"
+            : "border-slate-600/80 hover:border-emerald-400/70 hover:-translate-y-[1px]"
+        }`}
     >
-      {/* Top row: name + link */}
+      {/* Top: name + location + link */}
       <div className="flex justify-between items-start gap-3">
         <div className="min-w-0">
-          <h2 className="text-base font-semibold text-yellow-300 truncate">
-            {restaurant.name}
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-base font-semibold text-yellow-200 truncate">
+              {restaurant.name}
+            </h2>
+          </div>
+          <p className="mt-0.5 text-[11px] text-slate-300 flex items-center gap-1">
+            <span>📍</span>
+            <span className="truncate">{restaurant.location}</span>
+          </p>
+
           <div className="flex flex-wrap gap-1 mt-1 text-[11px] text-slate-100">
             {restaurant.tags.map((t) => (
               <span
@@ -52,15 +64,19 @@ export function RestaurantCard({
             ))}
           </div>
         </div>
+
         <a
           href={restaurant.url}
           className="text-[11px] underline text-sky-300 hover:text-sky-200 shrink-0"
           target="_blank"
           rel="noreferrer"
         >
-          Open in Maps
+          Maps
         </a>
       </div>
+
+      {/* Short description */}
+      <p className="mt-3 text-xs text-slate-200">{restaurant.description}</p>
 
       {/* Vote widget */}
       <div className="mt-4">
@@ -72,8 +88,8 @@ export function RestaurantCard({
         </div>
 
         <div className="flex justify-between text-[12px] mb-1 text-slate-300">
-          <span>Poor</span>
-          <span>Good</span>
+          <span>No</span>
+          <span>OK</span>
           <span>Top choice</span>
         </div>
 
@@ -84,7 +100,7 @@ export function RestaurantCard({
           step={1}
           value={numericValue}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full accent-emerald-300 cursor-pointer"
+          className="w-full accent-emerald-400 cursor-pointer"
           disabled={disabled}
         />
 
@@ -103,6 +119,51 @@ export function RestaurantCard({
           )}
         </p>
       </div>
+
+      {/* Toggle details */}
+      <button
+        type="button"
+        onClick={() => setExpanded((prev) => !prev)}
+        className="mt-3 inline-flex items-center gap-1 text-[12px] text-sky-300 hover:text-sky-200"
+      >
+        {expanded ? "Hide details" : "Show details"}
+        <span
+          className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+        >
+          ▼
+        </span>
+      </button>
+
+      {/* Expanded details: images + specialties */}
+      {expanded && (
+        <div className="mt-3 border-t border-slate-700 pt-3 space-y-3">
+          {restaurant.images && restaurant.images.length > 0 && (
+            <div className="flex gap-2 overflow-x-auto">
+              {restaurant.images.map((src, idx) => (
+                <img
+                  key={src + idx}
+                  src={src}
+                  alt={`${restaurant.name} ${idx + 1}`}
+                  className="h-24 w-32 rounded-lg object-cover flex-shrink-0"
+                />
+              ))}
+            </div>
+          )}
+
+          {restaurant.specialties && restaurant.specialties.length > 0 && (
+            <div>
+              <p className="text-[12px] font-semibold text-slate-100 mb-1">
+                Specialties
+              </p>
+              <ul className="text-[12px] text-slate-200 list-disc list-inside space-y-0.5">
+                {restaurant.specialties.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

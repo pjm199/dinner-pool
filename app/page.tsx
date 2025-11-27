@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { RestaurantCard, Restaurant } from "./components/RestaurantCard";
+import { Restaurant } from "./components/RestaurantCard";
+import { RestaurantCard } from "./components/RestaurantCard";
 
 const ROUND_ID = "round-1"; // change to "round-2", "final" for next rounds
 
@@ -9,12 +10,71 @@ const ROUND_ID = "round-1"; // change to "round-2", "final" for next rounds
 const pollClosesAt = new Date("2025-11-27T21:00:00+01:00");
 
 const restaurants: Restaurant[] = [
-  { id: "r1", name: "Trattoria Da Mario", tags: ["🍝 Italian", "€€"], url: "#" },
-  { id: "r2", name: "Pizzeria Vesuvio", tags: ["🍕 Pizza", "€"], url: "#" },
-  { id: "r3", name: "Sushi Master", tags: ["🍣 Sushi", "€€€"], url: "#" },
-  { id: "r4", name: "Green Garden", tags: ["🥗 Vegan", "€€"], url: "#" },
-  { id: "r5", name: "Burger House", tags: ["🍔 Burger", "€"], url: "#" },
-  // add up to 10 for Round 1
+  {
+    id: "r1",
+    name: "Trattoria Da Mario",
+    tags: ["🍝 Italian", "€€"],
+    url: "#",
+    location: "Chiavari – Centro",
+    description: "Casual trattoria with fresh pasta, pesto and local seafood.",
+    images: ["/images/mario-1.jpg",
+             "/images/mario-2.jpg",
+             "/images/mario-3.jpg",
+            ], // put your real paths in /public/images
+    specialties: ["Tagliatelle au pesto", "Seafood linguine", "Tiramisu"],
+  },
+  {
+    id: "r2",
+    name: "Pizzeria Vesuvio",
+    tags: ["🍕 Pizza", "€"],
+    url: "#",
+    location: "Lavagna – near station",
+    description: "Neapolitan-style pizza with long fermentation dough.",
+    images: [
+      "/images/mario-1.jpg",
+      "/images/mario-2.jpg",
+      "/images/mario-3.jpg",
+    ],
+    specialties: ["Margherita DOP", "Diavola", "Fritti misti"],
+  },
+  {
+    id: "r3",
+    name: "Uncle Mario's",
+    tags: ["🍝 Italian", "€€"],
+    url: "#",
+    location: "Sestri Levante – Centro",
+    description: "Casual trattoria with fresh pasta, pesto and local seafood.",
+    images: [
+      "/images/mario-1.jpg",
+      "/images/mario-2.jpg",
+      "/images/mario-3.jpg",
+    ], // put your real paths in /public/images
+    specialties: ["Tagliatelle au pesto", "Seafood linguine", "Tiramisu"],
+  },
+  {
+    id: "r4",
+    name: "Ca da Nonna",
+    tags: ["🍕 Pizza", "€"],
+    url: "#",
+    location: "Cassagna – countryside",
+    description: "Ravioli au Tuccu",
+    images: [
+      "/images/ca-da-nonna-1.jpg",
+      "/images/ca-da-nonna-2.jpg",
+      "/images/ca-da-nonna-3.jpg",
+    ],
+    specialties: ["Margherita DOP", "Diavola", "Fritti misti"],
+  },
+  {
+    id: "r5",
+    name: "Pizzeria Vesuvio",
+    tags: ["🍕 Pizza", "€"],
+    url: "#",
+    location: "La Spezia – near station",
+    description: "Neapolitan-style pizza with long fermentation dough.",
+    images: ["/images/vesuvio-1.jpg"],
+    specialties: ["Margherita DOP", "Diavola", "Fritti misti"],
+  },
 ];
 
 type AggregatedResult = {
