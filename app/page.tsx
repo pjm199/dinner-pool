@@ -40,8 +40,16 @@ export default function HomePage() {
   const [isLoadingResults, setIsLoadingResults] = useState(false);
 
   // simple "now" and closed state – recalculated each render
-  const now = new Date();
-  const isClosed = now > pollClosesAt;
+  const [isClosed, setIsClosed] = useState(false);
+  const [closingText, setClosingText] = useState("");
+
+
+  useEffect(() => {
+    // runs only in browser
+    const now = new Date();
+    setIsClosed(now > pollClosesAt);
+    setClosingText(pollClosesAt.toLocaleString());
+  }, []);
 
   // init userId (once, per device)
   useEffect(() => {
@@ -145,13 +153,13 @@ export default function HomePage() {
           </p>
 
           <p className="mt-1 text-xs text-slate-400">
-            Closes: {pollClosesAt.toLocaleString()}
+            Closes: {closingText || "…"}
           </p>
 
           {isClosed ? (
             <p className="mt-2 text-sm text-emerald-300">
-              This round is <span className="font-semibold">closed</span>.
-              Final results below.
+              This round is <span className="font-semibold">closed</span>. Final
+              results below.
             </p>
           ) : joined ? (
             <p className="mt-2 text-sm text-emerald-300">
