@@ -17,23 +17,25 @@ const restaurants: Restaurant[] = [
     url: "#",
     location: "Chiavari – Centro",
     description: "Casual trattoria with fresh pasta, pesto and local seafood.",
-    images: ["/images/mario-1.jpg",
-             "/images/mario-2.jpg",
-             "/images/mario-3.jpg",
-            ], // put your real paths in /public/images
-    specialties: ["Tagliatelle au pesto", "Seafood linguine", "Tiramisu"],
-  },
-  {
-    id: "r2",
-    name: "Pizzeria Vesuvio",
-    tags: ["🍕 Pizza", "€"],
-    url: "#",
-    location: "Lavagna – near station",
-    description: "Neapolitan-style pizza with long fermentation dough.",
     images: [
       "/images/mario-1.jpg",
       "/images/mario-2.jpg",
       "/images/mario-3.jpg",
+    ], // put your real paths in /public/images
+    specialties: ["Tagliatelle au pesto", "Seafood linguine", "Tiramisu"],
+  },
+  {
+    id: "r2",
+    name: "La Brinca",
+    tags: ["🍕 Pizza", "€"],
+    url: "#",
+    location: "Via Campo di Ne, 58 16040 - Ne (GE",
+    description:
+      "La Brinca proposes a large variety of traditional local dishes which stem from the peasant heritage of west Liguria, therefore only using on the local farm produces of the season",
+    images: [
+      "/images/brinca-1.jpg",
+      "/images/brinca-2.jpg",
+      "/images/brinca-3.jpg",
     ],
     specialties: ["Margherita DOP", "Diavola", "Fritti misti"],
   },
