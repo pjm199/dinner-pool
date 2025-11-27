@@ -43,7 +43,7 @@ export default function HomePage() {
   const [isClosed, setIsClosed] = useState(false);
   const [closingText, setClosingText] = useState("");
 
-  
+
 
   useEffect(() => {
     // runs only in browser
@@ -144,15 +144,19 @@ export default function HomePage() {
   const winner = results?.[0];
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 flex justify-center">
+    <main className="min-h-screen bg-blue-950 text-slate-50 flex justify-center">
       <div className="w-full max-w-md px-4 py-6 space-y-4">
         {/* Header */}
         <header className="text-center">
-          <h1 className="text-2xl font-bold mb-1">Dinner Poll 🍽️</h1>
-          <p className="text-xs uppercase tracking-wide text-slate-400">
+          <h1 className="text-2xl font-bold mb-1 text-emerald-400">
+            Dinner Poll 🍽️
+          </h1>
+          <p className="text-s uppercase tracking-wide text-slate-400">
+
+          </p>
+          <p className="text-s uppercase tracking-wide text-slate-400">
             Round 1 — Top 10
           </p>
-
           <p className="mt-1 text-xs text-slate-400">
             Closes: {closingText || "…"}
           </p>
