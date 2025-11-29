@@ -69,9 +69,9 @@ const restaurants: Restaurant[] = [
     location: "Cassagna – countryside",
     description: "Ravioli au Tuccu",
     images: [
-      "/images/ca-da-nonna-1.jpg",
-      "/images/ca-da-nonna-2.jpg",
-      "/images/ca-da-nonna-3.jpg",
+      "/images/nonna-1.jpg",
+      "/images/nonna-2.jpg",
+      "/images/nonna-3.jpg",
     ],
     specialties: ["Margherita DOP", "Diavola", "Fritti misti"],
   },
