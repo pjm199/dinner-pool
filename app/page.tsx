@@ -7,28 +7,28 @@ import { RestaurantCard } from "./components/RestaurantCard";
 const ROUND_ID = "round-1"; // change to "round-2", "final" for next rounds
 
 // example closing time – adjust!
-const pollClosesAt = new Date("2025-11-27T21:00:00+01:00");
+const pollClosesAt = new Date("2025-11-30T21:00:00+01:00");
 
 const restaurants: Restaurant[] = [
   {
     id: "r1",
-    name: "Trattoria Da Mario",
+    name: "Il Besugo Innamorato",
     tags: ["🍝 Italian", "€€"],
-    url: "#",
+    url: "https://www.tripadvisor.it/Restaurant_Review-g194735-d7001467-Reviews-Il_Besugo_Innamorato-Chiavari_Italian_Riviera_Liguria.html",
     location: "Chiavari – Centro",
-    description: "Casual trattoria with fresh pasta, pesto and local seafood.",
+    description: "Home restaurant and local seafood.",
     images: [
-      "/images/mario-1.jpg",
-      "/images/mario-2.jpg",
-      "/images/mario-3.jpg",
+      "/images/besugo-1.jpg",
+      "/images/besugo-2.jpg",
+      "/images/besugo-3.jpg",
     ], // put your real paths in /public/images
-    specialties: ["Tagliatelle au pesto", "Seafood linguine", "Tiramisu"],
+    specialties: ["Seafood : Ti mangi quello che pescano, Belin!"],
   },
   {
     id: "r2",
     name: "La Brinca",
-    tags: ["🍕 Pizza", "€"],
-    url: "#",
+    tags: ["🍝 Italian", "€€€"],
+    url: "https://www.labrinca.it/",
     location: "Via Campo di Ne, 58 16040 - Ne (GE",
     description:
       "La Brinca proposes a large variety of traditional local dishes which stem from the peasant heritage of west Liguria, therefore only using on the local farm produces of the season",
@@ -37,27 +37,35 @@ const restaurants: Restaurant[] = [
       "/images/brinca-2.jpg",
       "/images/brinca-3.jpg",
     ],
-    specialties: ["Margherita DOP", "Diavola", "Fritti misti"],
+    specialties: [
+      "Acciughe in conserva",
+      "Cùniggiu Magro",
+      "Bianco e Nero",
+      "Gnocchetti di castagna al Pesto di mortaio",
+    ],
   },
   {
     id: "r3",
-    name: "Uncle Mario's",
+    name: "L'Arca Tra gli Ulivi",
     tags: ["🍝 Italian", "€€"],
-    url: "#",
-    location: "Sestri Levante – Centro",
-    description: "Casual trattoria with fresh pasta, pesto and local seafood.",
-    images: [
-      "/images/mario-1.jpg",
-      "/images/mario-2.jpg",
-      "/images/mario-3.jpg",
-    ], // put your real paths in /public/images
-    specialties: ["Tagliatelle au pesto", "Seafood linguine", "Tiramisu"],
+    url: "https://www.tripadvisor.com/Restaurant_Review-g187826-d1807364-Reviews-L_Arca_Tra_gli_Ulivi-Rapallo_Italian_Riviera_Liguria.html",
+    location: "Rapallo Centro",
+    description:
+      "Dishes of Italian and Mediterranean cuisines can be ordered at L'Arca Tra gli Ulivi. The great location of this spot makes it easy to reach by any transport. The staff is said to be well-trained here. The spectacular atmosphere makes a good impression on customers.",
+    images: ["/images/arca-1.jpg", "/images/arca-2.jpg", "/images/arca-3.jpg"], // put your real paths in /public/images
+    specialties: [
+      "Ravioli",
+      "Asado",
+      "Tagliatelle au pesto",
+      "Seafood linguine",
+      "Tiramisu",
+    ],
   },
   {
     id: "r4",
     name: "Ca da Nonna",
-    tags: ["🍕 Pizza", "€"],
-    url: "#",
+    tags: ["🍝 Ligurian Food", "€€"],
+    url: "https://www.tripadvisor.it/Restaurant_Review-g1129801-d1739848-Reviews-Agriturismo_Ca_Da_Nonna-Ne_Province_of_Genoa_Liguria.html",
     location: "Cassagna – countryside",
     description: "Ravioli au Tuccu",
     images: [
@@ -70,12 +78,16 @@ const restaurants: Restaurant[] = [
   {
     id: "r5",
     name: "Pizzeria Vesuvio",
-    tags: ["🍕 Pizza", "€"],
-    url: "#",
-    location: "La Spezia – near station",
+    tags: ["🍕 Pizza", "€€"],
+    url: "https://pizzeriavesuvio.it/",
+    location: "Napoli – near station",
     description: "Neapolitan-style pizza with long fermentation dough.",
-    images: ["/images/vesuvio-1.jpg"],
-    specialties: ["Margherita DOP", "Diavola", "Fritti misti"],
+    images: [
+      "/images/vesuvio-1.jpg",
+      "/images/vesuvio-2.jpg",
+      "/images/vesuvio-3.jpg",
+    ],
+    specialties: ["Margherita DOP", "Diavola", "U Cuoppo"],
   },
 ];
 
@@ -206,20 +218,23 @@ export default function HomePage() {
   const winner = results?.[0];
 
   return (
-    <main className="min-h-screen bg-blue-950 text-slate-50 flex justify-center">
+    <main className="min-h-screen bg-slate-600 text-slate-50 flex justify-center">
       <div className="w-full max-w-md px-4 py-6 space-y-4">
         {/* Header */}
         <header className="text-center">
           <h1 className="text-2xl font-bold mb-1 text-emerald-400">
             Dinner Poll 🍽️
           </h1>
-          <p className="text-s uppercase tracking-wide text-slate-400">
-
+          {/* <div className="h-32 rounded-xl bg-gradient-to-br from-blue-600 via-slate-700 to-slate-50 shadow-lg"></div>
+          <div
+            className="h-32 w-full rounded-xl bg-gradient-to-br
+            from-[rgb(30,58,138)] via-[#003664] to-[#c6ccd3] shadow-lg"
+          ></div> */}
+          <p className="text-s uppercase tracking-wide text-slate-200"></p>
+          <p className="text-s uppercase tracking-wide text-slate-200">
+            Round 1 Test — Top 5 choices
           </p>
-          <p className="text-s uppercase tracking-wide text-slate-400">
-            Round 1 — Top 10
-          </p>
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-red-500">
             Closes: {closingText || "…"}
           </p>
 
@@ -238,10 +253,9 @@ export default function HomePage() {
             </p>
           )}
         </header>
-
+        <p className="text-sm font-medium">Step 1 — Join this poll</p>
         {/* Join card */}
         <section className="mt-2 rounded-2xl bg-slate-900/70 border border-slate-800 p-4 space-y-2">
-          <p className="text-sm font-medium">Step 1 — Join this poll</p>
           <div className="flex gap-2 items-center">
             <input
               type="text"
@@ -264,15 +278,20 @@ export default function HomePage() {
             </button>
           </div>
           {joined && !isClosed && (
-            <p className="text-xs text-emerald-300">
-              You can now vote on each restaurant below.
-            </p>
+            <>
+              <p className="text-s text-zinc-200">
+                You can now vote on each restaurant below.
+              </p>
+              <p className="text-s text-orange-300">
+                No : 0 - OK : 1 - Top : 2 - (Points)
+              </p>
+            </>
           )}
         </section>
 
         {/* Progress info */}
-        <section className="flex justify-between items-center text-xs text-slate-400">
-          <span>Step 2 — Vote on restaurants</span>
+        <section className="flex justify-between items-center text-s text-slate-200">
+          <p className="text-sm font-medium">Step 2 — Vote on restaurants</p>
           <span>
             {votedCount} / {totalRestaurants} voted
           </span>
@@ -290,6 +309,7 @@ export default function HomePage() {
             />
           ))}
         </section>
+        <p className="text-sm font-medium">Step 3 — See results </p>
 
         {/* Actions */}
         <section className="mt-4 flex gap-3">
@@ -307,7 +327,7 @@ export default function HomePage() {
           </button>
           <button
             onClick={handleResetLocalVotes}
-            className="px-4 py-2 rounded-xl text-xs font-medium border border-slate-700 text-slate-300 hover:bg-slate-900"
+            className="px-4 py-2 rounded-xl text-xs font-medium border border-red-700 text-red-500 hover:bg-slate-600"
           >
             Reset my votes
           </button>
@@ -318,8 +338,8 @@ export default function HomePage() {
           <h2 className="text-lg font-semibold mb-2">Results</h2>
 
           {!showResults && !isClosed && (
-            <p className="text-sm text-slate-400">
-              After everyone has voted, tap{" "}
+            <p className="text-sm text-slate-200">
+              After your vote has been cast, tap{" "}
               <span className="font-semibold">See results</span> to reveal the
               current ranking.
             </p>

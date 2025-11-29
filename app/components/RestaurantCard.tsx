@@ -32,28 +32,28 @@ export function RestaurantCard({
 
   return (
     <div
-      className={`group rounded-2xl border-emerald-400/70 p-4 shadow-lg transition-all duration-150
-        bg-gradient-to-br from-slate-400 to-slate-950
+      className={`group rounded-2xl border-emerald-400/100 p-6 shadow-lg
+        bg-gradient-to-br from-blue-600 to-zinc-900
         ${
           disabled
-            ? "border-slate-700 opacity-80"
-            : "border-slate-600/80 hover:border-emerald-400/70 hover:-translate-y-[1px]"
+            ? "border-orange-300"
+            : "border-orange-300 hover:border-emerald-400/70 hover:-translate-y-[5px]"
         }`}
     >
       {/* Top: name + location + link */}
       <div className="flex justify-between items-start gap-3">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-base font-semibold text-yellow-200 truncate">
+            <h2 className="text-base font-semibold text-amber-500 truncate">
               {restaurant.name}
             </h2>
           </div>
-          <p className="mt-0.5 text-[11px] text-slate-300 flex items-center gap-1">
+          <p className="mt-0.5 text-[12px] text-slate-100 flex items-center gap-1">
             <span>📍</span>
             <span className="truncate">{restaurant.location}</span>
           </p>
 
-          <div className="flex flex-wrap gap-1 mt-1 text-[11px] text-slate-100">
+          <div className="flex flex-wrap gap-1 mt-1 text-[12px] text-slate-100">
             {restaurant.tags.map((t) => (
               <span
                 key={t}
@@ -67,30 +67,30 @@ export function RestaurantCard({
 
         <a
           href={restaurant.url}
-          className="text-[11px] underline text-sky-300 hover:text-sky-200 shrink-0"
+          className="text-[12px] underline text-sky-100 hover:text-sky-200 shrink-0"
           target="_blank"
           rel="noreferrer"
         >
-          Maps
+          Website
         </a>
       </div>
 
       {/* Short description */}
-      <p className="mt-3 text-xs text-slate-200">{restaurant.description}</p>
+      <p className="mt-3 text-s text-slate-100">{restaurant.description}</p>
 
       {/* Vote widget */}
       <div className="mt-4">
         <div className="flex items-center justify-between mb-1">
-          <p className="text-sm text-slate-100">Your vote</p>
+          <p className="text-sm text-slate-100">Your vote -</p>
           {!disabled && (
-            <span className="text-[12px] text-slate-400">Slide to choose</span>
+            <span className="text-[12px] text-slate-100">Slide to choose</span>
           )}
         </div>
 
-        <div className="flex justify-between text-[12px] mb-1 text-slate-300">
+        <div className="flex justify-between text-[14px] mb-1 text-amber-300">
           <span>No</span>
           <span>OK</span>
-          <span>Top choice</span>
+          <span>Top</span>
         </div>
 
         <input
@@ -100,7 +100,7 @@ export function RestaurantCard({
           step={1}
           value={numericValue}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full accent-emerald-400 cursor-pointer"
+          className="w-full accent-emerald-300 cursor-pointer"
           disabled={disabled}
         />
 
