@@ -231,7 +231,7 @@ export default function HomePage() {
           <h1 className="text-2xl font-bold mb-1 text-emerald-400">
             Dinner Poll 🍽️
           </h1>
-         {/*  <div className="h-42 w-full rounded-xl bg-[radial-gradient(circle_at_center,_#d2d7dd_0%,_#c6ccd3_45%,_#003664_80%,_#001a33_100%)] shadow-lg flex items-center justify-center">
+          {/*  <div className="h-42 w-full rounded-xl bg-[radial-gradient(circle_at_center,_#d2d7dd_0%,_#c6ccd3_45%,_#003664_80%,_#001a33_100%)] shadow-lg flex items-center justify-center">
             <Image
               src="/images/VitoLogoCircle.png"
               alt="Vito Logo"
@@ -399,25 +399,36 @@ export default function HomePage() {
         <section className="mt-4 border-t border-slate-800 pt-4 pb-10">
           <h2 className="text-lg font-semibold mb-2">Results</h2>
 
-          {!showResults && !isClosed && (
+          {/* While poll is open: no results here */}
+          {!isClosed && (
             <p className="text-sm text-slate-200">
-              After your vote has been cast, tap{" "}
-              <span className="font-semibold">See results</span> to reveal the
-              current ranking.
+              Results will be revealed when the poll closes.{" "}
+              <span className="text-slate-400 text-xs">
+                (Only the organizer can see live votes.)
+              </span>
             </p>
           )}
 
-          {(showResults || isClosed) && results && results.length > 0 && (
+          {/* Poll closed but user hasn't pressed "See results" yet */}
+          {isClosed && !showResults && (
+            <p className="text-sm text-slate-200">
+              The poll is closed. Tap{" "}
+              <span className="font-semibold">See final results</span> to reveal
+              the winner.
+            </p>
+          )}
+
+          {/* Final results */}
+          {isClosed && showResults && results && results.length > 0 && (
             <>
               {winner && (
                 <div className="mb-3 p-3 rounded-xl bg-emerald-900/40 border border-emerald-700/60">
                   <p className="text-xs uppercase tracking-wide text-emerald-300 mb-1">
-                    {isClosed ? "Final winner" : "Current winner"}
+                    Final winner
                   </p>
                   <p className="text-base font-semibold">{winner.name} 🎉</p>
                   <p className="text-xs text-emerald-200 mt-1">
-                    {" "}
-                    Score: {winner.score} · Votes: {winner.votesCount}
+                    Total points: {winner.score} · Voters: {winner.votesCount}
                   </p>
                 </div>
               )}
