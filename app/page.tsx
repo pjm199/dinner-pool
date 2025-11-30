@@ -223,8 +223,8 @@ export default function HomePage() {
         return {
           id: row.restaurant_id,
           name: meta?.name ?? row.restaurant_id,
-          score: row.total_score,
-          votesCount: row.votes_count,
+          score: Number(row.total_score),
+          votesCount: Number(row.votes_count),
         };
       });
 
