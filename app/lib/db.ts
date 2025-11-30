@@ -9,14 +9,14 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-// Run-once init per instance
 let initPromise: Promise<void> | null = null;
 
 async function ensureSchema() {
-  if (initPromise) return initPromise;
+  if (initPromise) {
+    return initPromise;
+  }
 
   initPromise = (async () => {
-    // 1) Ensure votes table exists
     await pool.query(`
       CREATE TABLE IF NOT EXISTS votes (
         id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -29,20 +29,19 @@ async function ensureSchema() {
         UNIQUE (round_id, restaurant_id, user_id)
       );
     `);
-
-    // 2) In production on Vercel, always reset votes on new instance
-    if (process.env.VERCEL_ENV === "production") {
-      console.log("[DB] Truncating votes table on startup (production).");
-      await pool.query(`TRUNCATE TABLE votes;`);
-    }
   })().catch((err) => {
-    // If init fails, allow retry on next call
+    // allow retry if init fails
     initPromise = null;
     console.error("Error in ensureSchema:", err);
     throw err;
   });
 
   return initPromise;
+}
+
+export async function resetVotes(): Promise<void> {
+  await ensureSchema();
+  await pool.query(`TRUNCATE TABLE votes;`);
 }
 
 export async function upsertVote({
@@ -74,6 +73,8 @@ export type VoteResultRow = {
   total_score: number;
   votes_count: number;
 };
+
+
 
 export async function getRoundResults(
   roundId: string

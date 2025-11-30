@@ -9,7 +9,7 @@ import { RestaurantCard } from "./components/RestaurantCard";
 const ROUND_ID = "round-1"; // change to "round-2", "final" for next rounds
 
 // example closing time – adjust!
-const pollClosesAt = new Date("2025-11-31T21:00:00+01:00");
+const pollClosesAt = new Date("2025-11-31T22:00:00+01:00");
 
 const restaurants: Restaurant[] = [
   {
@@ -96,7 +96,9 @@ const restaurants: Restaurant[] = [
     ],
   },
 ];
-
+type ApiResponse = {
+  results?: ApiResultRow[];
+};
 type AggregatedResult = {
   id: string;
   name: string;
@@ -104,21 +106,28 @@ type AggregatedResult = {
   votesCount: number;
 };
 
-type ResultRow = {
+type ApiResultRow = {
   restaurant_id: string;
   total_score: string | number;
   votes_count: string | number;
 };
 
 export default function HomePage() {
+
   const [votes, setVotes] = useState<Record<string, number>>({});
-  const [showResults, setShowResults] = useState(false);
-  const [nickname, setNickname] = useState("");
-  const [joined, setJoined] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
   const [results, setResults] = useState<AggregatedResult[] | null>(null);
+  const [showResults, setShowResults] = useState(false);
+  const [loadingConfirm, setLoadingConfirm] = useState(false);
+  const [loadingResults, setLoadingResults] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hasConfirmed, setHasConfirmed] = useState(false);
+
+
+  const [nickname, setNickname] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
   const [isLoadingResults, setIsLoadingResults] = useState(false);
 
+  const [joined, setJoined] = useState(false);
   // simple "now" and closed state – recalculated each render
   const [isClosed, setIsClosed] = useState(false);
   const [closingText, setClosingText] = useState("");
@@ -149,53 +158,77 @@ export default function HomePage() {
     if (!nickname.trim()) return;
     setJoined(true);
   };
+  const handleConfirmVote = async () => {
+    if (!joined || !userId) {
+      setError("Join the poll with your name before confirming.");
+      return;
+    }
+    if (hasConfirmed) {
+      return; // already confirmed, do nothing
+    }
 
-  const handleVoteChange = async (restaurantId: string, value: number) => {
-    if (!joined || !userId || isClosed) return;
-
-    // update local UI
-    setVotes((prev) => ({ ...prev, [restaurantId]: value }));
-    setShowResults(false);
-
-    // send to backend (fire & forget)
     try {
-      await fetch("/api/vote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          roundId: ROUND_ID,
-          restaurantId,
-          userId,
-          score: value,
-        }),
-      });
-    } catch (err) {
-      console.error("Error sending vote", err);
+      setLoadingConfirm(true);
+      setError(null);
+
+      // build one payload per restaurant
+      const payloads = restaurants.map((r) => ({
+        roundId: ROUND_ID,
+        restaurantId: r.id,
+        userId,
+        // default to "OK" (1) if slider was never touched
+        score: votes[r.id] ?? 1,
+      }));
+
+      await Promise.all(
+        payloads.map((p) =>
+          fetch("/api/vote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(p),
+          })
+        )
+      );
+
+      setHasConfirmed(true);
+    } catch {
+      setError("Error while saving your votes.");
+    } finally {
+      setLoadingConfirm(false);
     }
   };
 
+  const handleVoteChange = (restaurantId: string, score: number) => {
+    setVotes((prev) => ({
+      ...prev,
+      [restaurantId]: score,
+    }));
+  };
+
   const handleSeeResults = async () => {
-    if (!joined) return;
-
-    setIsLoadingResults(true);
     try {
+      setLoadingResults(true);
+      setError(null);
+
       const res = await fetch(`/api/results/${ROUND_ID}`);
-      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
 
-      const aggregated: AggregatedResult[] = (data.results ?? []).map(
-        (row: ResultRow) => {
-          const r = restaurants.find((x) => x.id === row.restaurant_id);
-          return {
-            id: row.restaurant_id,
-            name: r?.name ?? row.restaurant_id,
-            score: Number(row.total_score),
-            votesCount: Number(row.votes_count),
-          };
-        }
-      );
+      const data: ApiResponse = await res.json();
+      const rawResults: ApiResultRow[] = data.results ?? [];
 
-      // ensure we also show restaurants with zero votes
-      const withZeros = restaurants.map((r) => {
+      const aggregated: AggregatedResult[] = rawResults.map((row) => {
+        const meta = restaurants.find((x) => x.id === row.restaurant_id);
+        return {
+          id: row.restaurant_id,
+          name: meta?.name ?? row.restaurant_id,
+          score: row.total_score,
+          votesCount: row.votes_count,
+        };
+      });
+
+      const withZeros: AggregatedResult[] = restaurants.map((r) => {
         const found = aggregated.find((a) => a.id === r.id);
         if (found) return found;
         return { id: r.id, name: r.name, score: 0, votesCount: 0 };
@@ -205,12 +238,13 @@ export default function HomePage() {
 
       setResults(withZeros);
       setShowResults(true);
-    } catch (err) {
-      console.error("Error fetching results", err);
+    } catch {
+      setError("Error loading results.");
     } finally {
-      setIsLoadingResults(false);
+      setLoadingResults(false);
     }
   };
+
 
   const handleResetLocalVotes = () => {
     setVotes({});
@@ -294,7 +328,7 @@ export default function HomePage() {
           </div> */}
           <p className="text-s uppercase tracking-wide text-slate-200"></p>
           <p className="text-s uppercase tracking-wide text-slate-200">
-            Round 1 Test — Top 5 choices
+            Round 1 — Top 5 choices
           </p>
           <p className="mt-1 text-xs text-red-500">
             Closes: {closingText || "…"}
@@ -339,6 +373,7 @@ export default function HomePage() {
               Join
             </button>
           </div>
+
           {joined && !isClosed && (
             <>
               <p className="text-s text-zinc-200">
@@ -366,7 +401,7 @@ export default function HomePage() {
               key={r.id}
               restaurant={r}
               value={votes[r.id]}
-              onChange={(value: number) => handleVoteChange(r.id, value)}
+              onChange={(newScore) => handleVoteChange(r.id, newScore)}
               disabled={!joined || isClosed}
             />
           ))}
@@ -374,26 +409,39 @@ export default function HomePage() {
         <p className="text-sm font-medium">Step 3 — See results </p>
 
         {/* Actions */}
-        <section className="mt-4 flex gap-3">
+        <section className="mt-4 flex flex-col gap-2 sm:flex-row">
           <button
-            onClick={handleSeeResults}
-            disabled={isClosed ? false : !joined || !hasAnyLocalVote}
-            className={`flex-1 py-2 rounded-xl text-sm font-semibold transition
-              ${
-                joined || isClosed
-                  ? "bg-emerald-500 hover:bg-emerald-400 text-slate-950"
-                  : "bg-slate-800 text-slate-500 cursor-not-allowed"
-              }`}
+            type="button"
+            onClick={handleConfirmVote}
+            disabled={!joined || loadingConfirm || hasConfirmed}
+            className="flex-1 py-2 rounded-xl text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed text-slate-950"
           >
-            {isLoadingResults ? "Loading..." : "See results"}
+            {hasConfirmed
+              ? "Vote confirmed"
+              : loadingConfirm
+              ? "Saving..."
+              : "Confirm my vote"}
           </button>
-          <button
-            onClick={handleResetLocalVotes}
-            className="px-4 py-2 rounded-xl text-xs font-medium border border-red-700 text-red-500 hover:bg-slate-600"
-          >
-            Reset my votes
-          </button>
+
+          {isClosed && (
+            <button
+              type="button"
+              onClick={handleSeeResults}
+              disabled={loadingResults}
+              className="flex-1 py-2 rounded-xl text-sm font-semibold bg-slate-800 hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-slate-50"
+            >
+              {loadingResults ? "Loading..." : "See final results"}
+            </button>
+          )}
         </section>
+
+        {hasConfirmed && (
+          <p className="mt-1 text-xs text-emerald-300">
+            Your votes have been saved.
+          </p>
+        )}
+
+        {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
 
         {/* Results */}
         <section className="mt-4 border-t border-slate-800 pt-4 pb-10">

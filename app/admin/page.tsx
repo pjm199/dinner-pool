@@ -41,6 +41,8 @@ export default function AdminPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [resetting, setResetting] = useState<boolean>(false);
+
   const loadResults = async () => {
     try {
       setLoading(true);
@@ -90,6 +92,44 @@ export default function AdminPage() {
     }
   };
 
+  const handleReset = async () => {
+    const okConfirm = window.confirm(
+      "Are you sure you want to reset ALL votes for all rounds?"
+    );
+    if (!okConfirm) return;
+
+    try {
+      setResetting(true);
+      setError(null);
+
+      const res = await fetch("/api/admin/reset", {
+        method: "POST",
+      });
+
+      let body: { error?: string } | null = null;
+      try {
+        body = (await res.json()) as { error?: string };
+      } catch {
+        body = null;
+      }
+
+      if (!res.ok) {
+        const msg = body?.error ?? `Error resetting votes (HTTP ${res.status})`;
+        setError(msg);
+        return;
+      }
+
+      // After reset, refresh results (they should now be zero / empty)
+      await loadResults();
+    } catch {
+      setError("Unexpected error resetting votes");
+    } finally {
+      setResetting(false);
+    }
+  };
+
+
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 flex justify-center">
       <div className="w-full max-w-md px-4 py-6 space-y-4">
@@ -115,6 +155,14 @@ export default function AdminPage() {
               ))}
             </select>
           </div>
+
+          <button
+            type="button"
+            onClick={handleReset}
+            className="w-full mt-2 py-2 rounded-xl text-sm font-semibold bg-red-500 hover:bg-red-400 text-slate-950 transition"
+          >
+            {resetting ? "Resetting..." : "Reset all votes"}
+          </button>
 
           <button
             type="button"
