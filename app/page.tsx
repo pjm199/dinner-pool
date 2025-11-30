@@ -13,20 +13,6 @@ const pollClosesAt = new Date("2025-11-30T21:00:00+01:00");
 
 const restaurants: Restaurant[] = [
   {
-    id: "r1",
-    name: "Il Besugo Innamorato",
-    tags: ["🍝 Italian", "€€"],
-    url: "https://www.tripadvisor.it/Restaurant_Review-g194735-d7001467-Reviews-Il_Besugo_Innamorato-Chiavari_Italian_Riviera_Liguria.html",
-    location: "Chiavari – Centro",
-    description: "Home restaurant and local seafood.",
-    images: [
-      "/images/besugo-1.jpg",
-      "/images/besugo-2.jpg",
-      "/images/besugo-3.jpg",
-    ], // put your real paths in /public/images
-    specialties: ["Seafood : Ti mangi quello che pescano, Belin!"],
-  },
-  {
     id: "r2",
     name: "La Brinca",
     tags: ["🍝 Italian", "€€€"],
@@ -51,7 +37,7 @@ const restaurants: Restaurant[] = [
     name: "L'Arca Tra gli Ulivi",
     tags: ["🍝 Italian", "€€"],
     url: "https://www.tripadvisor.com/Restaurant_Review-g187826-d1807364-Reviews-L_Arca_Tra_gli_Ulivi-Rapallo_Italian_Riviera_Liguria.html",
-    location: "Rapallo Centro",
+    location: "Rapallo",
     description:
       "Dishes of Italian and Mediterranean cuisines can be ordered at L'Arca Tra gli Ulivi. The great location of this spot makes it easy to reach by any transport. The staff is said to be well-trained here. The spectacular atmosphere makes a good impression on customers.",
     images: ["/images/arca-1.jpg", "/images/arca-2.jpg", "/images/arca-3.jpg"], // put your real paths in /public/images
@@ -90,6 +76,24 @@ const restaurants: Restaurant[] = [
       "/images/balanzone-3.jpg",
     ],
     specialties: ["Salumi", "Ravioli", "Tortellini"],
+  },
+  {
+    id: "r1",
+    name: "Settmbrin",
+    tags: ["🍝 Italian", "€€"],
+    url: "https://www.settembrin.it",
+    location: "Val Graveglia",
+    description: "Restaurant and local seafood.",
+    images: [
+      "/images/settmbrin-1.jpg",
+      "/images/settmbrin-2.jpg",
+      "/images/settmbrin-3.jpg",
+    ], // put your real paths in /public/images
+    specialties: [
+      "Pansoti al sugo di noci",
+      "Acciughe ripiene",
+      "Fritto misto",
+    ],
   },
 ];
 
