@@ -9,7 +9,7 @@ import { RestaurantCard } from "./components/RestaurantCard";
 const ROUND_ID = "round-1"; // change to "round-2", "final" for next rounds
 
 // example closing time – adjust!
-const pollClosesAt = new Date("2025-11-30T21:00:00+01:00");
+const pollClosesAt = new Date("2025-11-31T21:00:00+01:00");
 
 const restaurants: Restaurant[] = [
   {
