@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Restaurant } from "./components/RestaurantCard";
 import { RestaurantCard } from "./components/RestaurantCard";
 /*import { url } from "inspector";*/
-import Image from "next/image";
+/*import Image from "next/image";*/
 
 const ROUND_ID = "round-1"; // change to "round-2", "final" for next rounds
 
@@ -13,7 +13,7 @@ const pollClosesAt = new Date("2025-11-30T21:00:00+01:00");
 
 const restaurants: Restaurant[] = [
   {
-    id: "r2",
+    id: "r1",
     name: "La Brinca",
     tags: ["🍝 Italian", "€€€"],
     url: "https://www.labrinca.it/",
@@ -33,7 +33,7 @@ const restaurants: Restaurant[] = [
     ],
   },
   {
-    id: "r3",
+    id: "r2",
     name: "L'Arca Tra gli Ulivi",
     tags: ["🍝 Italian", "€€"],
     url: "https://www.tripadvisor.com/Restaurant_Review-g187826-d1807364-Reviews-L_Arca_Tra_gli_Ulivi-Rapallo_Italian_Riviera_Liguria.html",
@@ -50,7 +50,7 @@ const restaurants: Restaurant[] = [
     ],
   },
   {
-    id: "r4",
+    id: "r3",
     name: "Ca da Nonna",
     tags: ["🍝 Ligurian Food", "€€"],
     url: "https://www.tripadvisor.it/Restaurant_Review-g1129801-d1739848-Reviews-Agriturismo_Ca_Da_Nonna-Ne_Province_of_Genoa_Liguria.html",
@@ -64,7 +64,7 @@ const restaurants: Restaurant[] = [
     specialties: ["Salumi", "Focaccia", "Torta di riso (Finita in fretta)"],
   },
   {
-    id: "r5",
+    id: "r4",
     name: "Locanda Balanzone",
     tags: ["🍝 Ligurian Food", "€€"],
     url: "https://www.tripadvisor.it/Restaurant_Review-g1055404-d10286063-Reviews-Locanda_Balanzone-Carasco_Province_of_Genoa_Liguria.html",
@@ -78,7 +78,7 @@ const restaurants: Restaurant[] = [
     specialties: ["Salumi", "Ravioli", "Tortellini"],
   },
   {
-    id: "r1",
+    id: "r5",
     name: "Settembrin",
     tags: ["🍝 Italian", "€€"],
     url: "https://www.settembrin.it",

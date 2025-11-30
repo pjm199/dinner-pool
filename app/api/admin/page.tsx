@@ -25,11 +25,11 @@ type AggregatedResult = {
 };
 
 const adminRestaurants: AdminRestaurantMeta[] = [
-  { id: "r1", name: "Trattoria Da Mario" },
-  { id: "r2", name: "Pizzeria Vesuvio" },
-  { id: "r3", name: "Sushi Master" },
-  { id: "r4", name: "Green Garden" },
-  { id: "r5", name: "Burger House" },
+  { id: "r1", name: "La Brinca" },
+  { id: "r2", name: "L'arca degli Ulivi" },
+  { id: "r3", name: "Ca da Nonna" },
+  { id: "r4", name: "Locanda Balanzone" },
+  { id: "r5", name: "Settembrin" },
   // add more if you have them
 ];
 
