@@ -79,7 +79,7 @@ const restaurants: Restaurant[] = [
   },
   {
     id: "r1",
-    name: "Settmbrin",
+    name: "Settembrin",
     tags: ["🍝 Italian", "€€"],
     url: "https://www.settembrin.it",
     location: "Val Graveglia",
