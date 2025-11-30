@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { Restaurant } from "./components/RestaurantCard";
 import { RestaurantCard } from "./components/RestaurantCard";
+/*import { url } from "inspector";*/
+import Image from "next/image";
 
 const ROUND_ID = "round-1"; // change to "round-2", "final" for next rounds
 
@@ -73,21 +75,21 @@ const restaurants: Restaurant[] = [
       "/images/nonna-2.jpg",
       "/images/nonna-3.jpg",
     ],
-    specialties: ["Margherita DOP", "Diavola", "Fritti misti"],
+    specialties: ["Salumi", "Focaccia", "Torta di riso (Finita in fretta)"],
   },
   {
     id: "r5",
-    name: "Pizzeria Vesuvio",
-    tags: ["🍕 Pizza", "€€"],
-    url: "https://pizzeriavesuvio.it/",
-    location: "Napoli – near station",
-    description: "Neapolitan-style pizza with long fermentation dough.",
+    name: "Locanda Balanzone",
+    tags: ["🍝 Ligurian Food", "€€"],
+    url: "https://www.tripadvisor.it/Restaurant_Review-g1055404-d10286063-Reviews-Locanda_Balanzone-Carasco_Province_of_Genoa_Liguria.html",
+    location: " Carasco ",
+    description: "Italiana, Emiliana",
     images: [
-      "/images/vesuvio-1.jpg",
-      "/images/vesuvio-2.jpg",
-      "/images/vesuvio-3.jpg",
+      "/images/balanzone-1.jpg",
+      "/images/balanzone-2.jpg",
+      "/images/balanzone-3.jpg",
     ],
-    specialties: ["Margherita DOP", "Diavola", "U Cuoppo"],
+    specialties: ["Salumi", "Ravioli", "Tortellini"],
   },
 ];
 
@@ -225,11 +227,67 @@ export default function HomePage() {
           <h1 className="text-2xl font-bold mb-1 text-emerald-400">
             Dinner Poll 🍽️
           </h1>
-          {/* <div className="h-32 rounded-xl bg-gradient-to-br from-blue-600 via-slate-700 to-slate-50 shadow-lg"></div>
+         {/*  <div className="h-42 w-full rounded-xl bg-[radial-gradient(circle_at_center,_#d2d7dd_0%,_#c6ccd3_45%,_#003664_80%,_#001a33_100%)] shadow-lg flex items-center justify-center">
+            <Image
+              src="/images/VitoLogoCircle.png"
+              alt="Vito Logo"
+              className="h-30 w-30 rounded-xl"
+              width={120}
+              height={120}
+            />
+          </div>
+          <br /> */}
+          {/* <div className="h-35 w-70 rounded-xl bg-gradient-to-r from-[#003664] via-[#d2d7dd] to-[#003664] shadow-lg flex items-center justify-center">
+            <Image
+              src="/images/VitoLogoCircle.png"
+              alt="Vito Logo"
+              className="h-30 w-30 rounded-xl object-contain"
+              width={120}
+              height={120}
+            />
+          </div>
+          <br />
+          <div className="h-35 w-70 rounded-xl bg-gradient-to-r from-[#003664] via-[#d2d7dd] to-[#003664] shadow-lg flex items-center justify-left pl-8">
+            <Image
+              src="/images/VitoLogoCircle.png"
+              alt="Vito Logo"
+              className="h-30 w-30 rounded-xl object-contain"
+              width={120}
+              height={120}
+            />
+          </div>
+          <br />
           <div
-            className="h-32 w-full rounded-xl bg-gradient-to-br
-            from-[rgb(30,58,138)] via-[#003664] to-[#c6ccd3] shadow-lg"
-          ></div> */}
+            className="
+            h-40 w-80 rounded-xl
+            bg-[radial-gradient(circle_at_30%_50%,rgba(245,160,80,0.28)_0,transparent_55%),radial-gradient(circle_at_70%_50%,rgba(40,120,100,0.28)_0,transparent_55%),linear-gradient(to_right,#001a33,#003664)]
+            shadow-lg flex items-center justify-center
+          "
+          >
+            <Image
+              src="/images/VitoLogoCircle.png"
+              alt="Vito Logo"
+              width={160}
+              height={160}
+              className="object-contain"
+            />
+          </div>
+          <br /> */}
+          {/* <div
+            className="
+        h-40 w-90 rounded-xl
+        bg-[radial-gradient(circle_at_25%_50%,rgba(0,10,30,0.5)_0,transparent_80%),radial-gradient(circle_at_70%_50%,rgba(210,215,221,0.7)_0,rgba(198,204,211,0.6)_30%,transparent_60%),linear-gradient(to_right,#001021,#003664)]
+        shadow-lg flex items-center justify-left pl-15
+      "
+          >
+            <Image
+              src="/images/VitoLogoCircle.png"
+              alt="Vito Logo"
+              width={160}
+              height={160}
+              className="object-contain"
+            />
+          </div> */}
           <p className="text-s uppercase tracking-wide text-slate-200"></p>
           <p className="text-s uppercase tracking-wide text-slate-200">
             Round 1 Test — Top 5 choices
@@ -354,6 +412,7 @@ export default function HomePage() {
                   </p>
                   <p className="text-base font-semibold">{winner.name} 🎉</p>
                   <p className="text-xs text-emerald-200 mt-1">
+                    {" "}
                     Score: {winner.score} · Votes: {winner.votesCount}
                   </p>
                 </div>
