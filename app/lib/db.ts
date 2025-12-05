@@ -74,6 +74,50 @@ export type VoteResultRow = {
   votes_count: number;
 };
 
+export type VoteRow = {
+  id: string;
+  round_id: string;
+  restaurant_id: string;
+  user_id: string;
+  score: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export async function getVotes(roundId?: string): Promise<VoteRow[]> {
+  await ensureSchema();
+
+  if (roundId) {
+    const res = await pool.query<VoteRow>(
+      `
+        SELECT id, round_id, restaurant_id, user_id, score,
+               to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at,
+               to_char(updated_at, 'YYYY-MM-DD HH24:MI:SS') AS updated_at
+        FROM votes
+        WHERE round_id = $1
+        ORDER BY created_at DESC
+      `,
+      [roundId]
+    );
+    return res.rows;
+  }
+
+  const res = await pool.query<VoteRow>(
+    `
+      SELECT id, round_id, restaurant_id, user_id, score,
+             to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at,
+             to_char(updated_at, 'YYYY-MM-DD HH24:MI:SS') AS updated_at
+      FROM votes
+      ORDER BY created_at DESC
+    `
+  );
+  return res.rows;
+}
+
+export async function deleteVote(id: string): Promise<void> {
+  await ensureSchema();
+  await pool.query(`DELETE FROM votes WHERE id = $1`, [id]);
+}
 
 
 export async function getRoundResults(
