@@ -253,6 +253,7 @@ export default function HomePage() {
   };
 
   const hasAnyLocalVote = Object.keys(votes).length > 0;
+
   const votedCount = Object.keys(votes).length;
   const totalRestaurants = restaurants.length;
 
